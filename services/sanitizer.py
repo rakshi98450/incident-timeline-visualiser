@@ -1,6 +1,10 @@
 import re
 
 def sanitize_input(text: str) -> str:
+    # Handle None or non-string types
+    if text is None or not isinstance(text, str):
+        return ""
+    
     # Remove HTML tags
     text = re.sub(r'<.*?>', '', text)
 

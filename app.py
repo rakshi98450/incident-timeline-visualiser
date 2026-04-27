@@ -32,6 +32,10 @@ def ask_ai():
     # ✅ Step 1: Sanitize
     clean_input = sanitize_input(user_input)
 
+    # Check if sanitized input is empty
+    if not clean_input:
+        return jsonify({"error": "Input is empty or contains only invalid characters"}), 400
+
     # ✅ Step 2: Check injection
     if is_prompt_injection(clean_input):
         return jsonify({"error": "Invalid input detected"}), 403
