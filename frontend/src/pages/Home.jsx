@@ -13,6 +13,23 @@ export default function Home({ onEdit, onView }) {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
+  const handleExportCSV = async () => {
+    try {
+      const res = await API.get("/api/incidents/export", {
+        responseType: "blob",
+      });
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "incidents.csv");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch {
+      alert("Export failed. Please try again when backend is running.");
+    }
+  };
+
   const fetchIncidents = (pageNum = 0) => {
     setLoading(true);
 
@@ -54,9 +71,17 @@ export default function Home({ onEdit, onView }) {
   if (error) {
     return (
       <div className="p-6">
-        <h1 className="text-2xl font-bold text-blue-800 mb-6">
-          All Incidents
-        </h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-blue-800">
+            All Incidents
+          </h1>
+          <button
+            onClick={handleExportCSV}
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition flex items-center gap-2"
+          >
+            📥 Export CSV
+          </button>
+        </div>
         <SearchBar
           onSearch={(term) => { setSearchTerm(term); setPage(0); }}
           onStatusFilter={(status) => { setStatusFilter(status); setPage(0); }}
@@ -71,9 +96,19 @@ export default function Home({ onEdit, onView }) {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold text-blue-800 mb-6">
-        All Incidents
-      </h1>
+
+      {/* Header with Export Button */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-blue-800">
+          All Incidents
+        </h1>
+        <button
+          onClick={handleExportCSV}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition flex items-center gap-2"
+        >
+          📥 Export CSV
+        </button>
+      </div>
 
       {/* Search Bar */}
       <SearchBar

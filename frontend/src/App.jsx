@@ -6,6 +6,7 @@ import IncidentForm from "./pages/IncidentForm";
 import IncidentDetail from "./pages/IncidentDetail";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import FileUpload from "./components/FileUpload";
 
 function AppContent() {
   const { user, logout } = useAuth();
@@ -42,6 +43,12 @@ function AppContent() {
             Dashboard
           </button>
           <button
+            onClick={() => navigateTo("upload")}
+            className="hover:underline"
+          >
+            Upload
+          </button>
+          <button
             onClick={() => navigateTo("create")}
             className="bg-white text-blue-800 px-4 py-1 rounded font-medium hover:bg-gray-100"
           >
@@ -65,6 +72,14 @@ function AppContent() {
           />
         )}
         {currentPage === "dashboard" && <Dashboard />}
+        {currentPage === "upload" && (
+          <div className="max-w-2xl mx-auto mt-8 px-6">
+            <h1 className="text-2xl font-bold text-blue-800 mb-6">
+              Upload File
+            </h1>
+            <FileUpload />
+          </div>
+        )}
         {currentPage === "create" && (
           <IncidentForm onSuccess={() => navigateTo("home")} />
         )}
