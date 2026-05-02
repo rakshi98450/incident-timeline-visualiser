@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import AIPanel from "../components/AIPanel";
 
 export default function IncidentDetail({ incidentId, onEdit, onBack }) {
   const [incident, setIncident] = useState(null);
@@ -49,7 +50,7 @@ export default function IncidentDetail({ incidentId, onEdit, onBack }) {
 
   return (
     <div className="max-w-3xl mx-auto p-6 mt-8">
-      
+
       {/* Back Button */}
       <button
         onClick={onBack}
@@ -63,7 +64,7 @@ export default function IncidentDetail({ incidentId, onEdit, onBack }) {
       )}
 
       <div className="bg-white rounded-lg shadow p-6">
-        
+
         {/* Header */}
         <div className="flex justify-between items-start mb-6">
           <h1 className="text-2xl font-bold text-blue-800">
@@ -101,7 +102,9 @@ export default function IncidentDetail({ incidentId, onEdit, onBack }) {
           </div>
           <div>
             <p className="text-sm text-gray-500">Assigned To</p>
-            <p className="font-medium">{incident.assignedTo || "Not assigned"}</p>
+            <p className="font-medium">
+              {incident.assignedTo || "Not assigned"}
+            </p>
           </div>
           <div>
             <p className="text-sm text-gray-500">Incident Date</p>
@@ -166,6 +169,10 @@ export default function IncidentDetail({ incidentId, onEdit, onBack }) {
         </div>
 
       </div>
+
+      {/* AI Panel */}
+      <AIPanel incidentId={incidentId} />
+
     </div>
   );
 }
