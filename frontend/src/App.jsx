@@ -3,19 +3,22 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import IncidentForm from "./pages/IncidentForm";
+import IncidentDetail from "./pages/IncidentDetail";
+import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function AppContent() {
   const { user, logout } = useAuth();
   const [currentPage, setCurrentPage] = useState("home");
   const [editId, setEditId] = useState(null);
+  const [detailId, setDetailId] = useState(null);
 
   const navigateTo = (page, id = null) => {
     setCurrentPage(page);
-    setEditId(id);
+    if (page === "edit") setEditId(id);
+    if (page === "detail") setDetailId(id);
   };
 
-  // If not logged in → show login page
   if (!user) {
     return <Login onSuccess={() => navigateTo("home")} />;
   }
@@ -31,6 +34,12 @@ function AppContent() {
             className="hover:underline"
           >
             Home
+          </button>
+          <button
+            onClick={() => navigateTo("dashboard")}
+            className="hover:underline"
+          >
+            Dashboard
           </button>
           <button
             onClick={() => navigateTo("create")}
@@ -50,8 +59,12 @@ function AppContent() {
       {/* Pages */}
       <ProtectedRoute>
         {currentPage === "home" && (
-          <Home onEdit={(id) => navigateTo("edit", id)} />
+          <Home
+            onEdit={(id) => navigateTo("edit", id)}
+            onView={(id) => navigateTo("detail", id)}
+          />
         )}
+        {currentPage === "dashboard" && <Dashboard />}
         {currentPage === "create" && (
           <IncidentForm onSuccess={() => navigateTo("home")} />
         )}
@@ -59,6 +72,13 @@ function AppContent() {
           <IncidentForm
             incidentId={editId}
             onSuccess={() => navigateTo("home")}
+          />
+        )}
+        {currentPage === "detail" && (
+          <IncidentDetail
+            incidentId={detailId}
+            onEdit={(id) => navigateTo("edit", id)}
+            onBack={() => navigateTo("home")}
           />
         )}
       </ProtectedRoute>

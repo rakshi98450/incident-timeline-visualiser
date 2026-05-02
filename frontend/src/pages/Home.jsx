@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
 
-export default function Home({ onEdit }) {
+export default function Home({ onEdit, onView }) {
   const [incidents, setIncidents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -106,7 +106,13 @@ export default function Home({ onEdit }) {
                     <td className="px-4 py-3">
                       {new Date(incident.incidentDate).toLocaleDateString()}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 flex gap-2">
+                      <button
+                        onClick={() => onView(incident.id)}
+                        className="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700"
+                      >
+                        View
+                      </button>
                       <button
                         onClick={() => onEdit(incident.id)}
                         className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
