@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import IncidentForm from "./pages/IncidentForm";
 import IncidentDetail from "./pages/IncidentDetail";
 import Dashboard from "./pages/Dashboard";
+import Analytics from "./pages/Analytics";
 import ProtectedRoute from "./components/ProtectedRoute";
 import FileUpload from "./components/FileUpload";
 
@@ -43,6 +44,12 @@ function AppContent() {
             Dashboard
           </button>
           <button
+            onClick={() => navigateTo("analytics")}
+            className="hover:underline"
+          >
+            Analytics
+          </button>
+          <button
             onClick={() => navigateTo("upload")}
             className="hover:underline"
           >
@@ -72,6 +79,7 @@ function AppContent() {
           />
         )}
         {currentPage === "dashboard" && <Dashboard />}
+        {currentPage === "analytics" && <Analytics />}
         {currentPage === "upload" && (
           <div className="max-w-2xl mx-auto mt-8 px-6">
             <h1 className="text-2xl font-bold text-blue-800 mb-6">
